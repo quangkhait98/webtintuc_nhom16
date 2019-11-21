@@ -1,0 +1,9 @@
+/**/node_modules
+/**/migration
+/**/dist
+/**/.vscode
+/**/submodules
+/**/yarn-error.log
+/**/yarn.lock
+/**/package-lock.json
+/yarn.lock
