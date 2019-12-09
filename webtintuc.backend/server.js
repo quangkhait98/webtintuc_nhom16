@@ -7,13 +7,14 @@ const categoryRoute = require("./routes/category");
 const newsRoute = require("./routes/news");
 const newsTypeRoute = require("./routes/newstype");
 const commentRoute = require("./routes/comment");
+const userRoute = require("./routes/user");
 const passport = require("passport");
 
 dotenv.config();
 
 app.use(function(req, res, next) {
   res.setHeader("Access-Control-Allow-Origin", "*");
-  res.setHeader("Access-Control-Allow-Methods", "GET, POST");
+  res.setHeader("Access-Control-Allow-Methods", "GET, PUT, DELETE, POST");
   res.setHeader(
     "Access-Control-Allow-Headers",
     "X-Request-With,content-type, Authorization"
@@ -38,9 +39,7 @@ app.use("/auth", authRoute);
 app.use("/news", newsRoute);
 app.use("/newstype", newsTypeRoute);
 app.use("/comment", commentRoute);
-
-
-
+app.use("/user", userRoute);
 
 app.get("/", (req, res) => {
   res.send("trang chu");
@@ -51,6 +50,5 @@ app.get("/err", (req, res) => {
 app.get("/protected", (req, res) => {
   res.send("authenticated!");
 });
-
 
 app.listen(8001, () => console.log("server running ..."));

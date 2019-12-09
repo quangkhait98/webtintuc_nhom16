@@ -18,10 +18,14 @@ class Header extends Component {
           if (index === 0) {
             return (
               <div id="slideleft-main">
-                <img src={image} alt="" />
+                <img
+                  src={value.image}
+                  alt=""
+                  style={{width:"490px", height: "200px"}}
+                />
                 <br />
                 <h2 className="title">
-                  <Link to={`/news/${value._id}`}>{value.title}</Link>
+                  <Link to={`/homepage/news/${value._id}`}>{value.title}</Link>
                 </h2>
                 <div className="des">{value.summary}</div>
               </div>
@@ -37,7 +41,7 @@ class Header extends Component {
                   return (
                     <li>
                       <div className="title_news">
-                        <Link to={`/news/${value._id}`} className="txt_link">
+                        <Link to={`/homepage/news/${value._id}`} className="txt_link">
                           {value.title}
                         </Link>
                       </div>
@@ -47,10 +51,10 @@ class Header extends Component {
               })}
             </ul>
           </div>
-          <div id="gocnhin">
+          {/* <div id="gocnhin">
             <img alt="" src={image} width="100%" />
             <div className="title_news" />
-          </div>
+          </div> */}
         </div>
       </div>
     );

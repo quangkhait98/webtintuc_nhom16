@@ -12,9 +12,7 @@ export const getNewsestByNewsTypeSuccess = createAction(
 export const getNewsestByNewsType = newsTypeId => {
   return async (dispatch, getState) => {
     dispatch(getNewsestByNewsTypeRequest());
-    fetch(
-      `http://localhost:8001/news/newsestbynewstype?newsTypeId=${newsTypeId}&skip=0&limit=5`
-    )
+    fetch(`http://localhost:8001/news/tintubandoc`)
       .then(response => response.json())
       .then(data => dispatch(getNewsestByNewsTypeSuccess(data)))
       .catch(error => dispatch(getNewsestByNewsTypeError(error)));

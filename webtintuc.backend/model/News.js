@@ -25,7 +25,8 @@ const newsSchema = new mongoose.Schema({
   },
   Highlights: {
     type: Number,
-    required: true,
+    required: false,
+    default: 1,
     max: 10,
     min: 1
   },
@@ -33,12 +34,13 @@ const newsSchema = new mongoose.Schema({
     type: Number,
     default: 0
   },
-  create_at: {
+  createAt: {
     type: Date,
-    default: Date.now
+    default: new Date()
   },
   newsType: { type: Schema.Types.ObjectId, ref: "NewsType" },
-  category: { type: Schema.Types.ObjectId, ref: "Category" }
+  category: { type: Schema.Types.ObjectId, ref: "Category" },
+  user: { type: Schema.Types.ObjectId, ref: "User", default: null }
 });
 
 module.exports = mongoose.model("News", newsSchema);

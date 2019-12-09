@@ -17,7 +17,7 @@ class ColumnRight extends Component {
         <div className="box-cat">
           <div className="cat">
             <div className="main-cat">
-              <a href="#">{_.get(newsByNewsType, "[0].newsType.name")}</a>
+              <a href="#">Tin từ bạn đọc</a>
             </div>
             <div className="clear" />
             <div className="cat-content">

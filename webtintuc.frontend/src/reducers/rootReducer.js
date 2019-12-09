@@ -7,7 +7,7 @@ import footerReducer from "./footerReducer";
 import newsdetailReducer from "./newsdetailReducer";
 import newstypeReducer from "./newstypeReducer";
 import homepageReducer from "./homepageReducer";
-import loginReducer from "./loginReducer";
+import postReducer from "./postReducer";
 export default combineReducers({
   simpleReducer,
   columnleftReducer,
@@ -17,5 +17,5 @@ export default combineReducers({
   newsdetailReducer,
   newstypeReducer,
   homepageReducer,
-  loginReducer
+  postReducer
 });

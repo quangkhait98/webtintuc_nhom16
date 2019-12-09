@@ -1,11 +1,9 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import * as loginAction from "../../actions/loginAction";
 import { bindActionCreators } from "redux";
-import image from "../../assets/images/3.png";
+import * as simpleAction from "../../actions/simpleAction";
 import _ from "lodash";
 import { Link } from "react-router-dom";
-import { Redirect } from "react-router";
 import {
   Input,
   Button,
@@ -16,7 +14,8 @@ import {
   Checkbox,
   Avatar,
   Dropdown,
-  Menu
+  Menu,
+  notification
 } from "antd";
 import Cookies from "js-cookie";
 const { TabPane } = Tabs;
@@ -26,7 +25,18 @@ class Login extends Component {
     this.onClickFaceBook = this.onClickFaceBook.bind(this);
   }
   componentDidMount() {
-    console.log(this.props);
+    setInterval(() => {
+      if (Cookies.get("isAuthenticated") === "true") {
+        this.props.actions.checkToken();
+      }
+    }, 3000);
+    const isAuthenticated =
+      Cookies.get("isAuthenticated") === "true" ? true : false;
+    const token = Cookies.get("token");
+    const user = _.isUndefined(Cookies.get("user"))
+      ? null
+      : JSON.parse(Cookies.get("user").slice(2, Cookies.get("user").length));
+    this.setState({ isAuthenticated, token, user });
   }
 
   onClickFaceBook() {
@@ -57,11 +67,30 @@ class Login extends Component {
   };
 
   clickLogout = () => {
-    Cookies.remove("user");
     Cookies.remove("isAuthenticated");
     Cookies.remove("token");
-    window.location.href = `http://localhost:3000/`;
+    Cookies.remove("user");
+    window.location.href = window.location.href;
   };
+
+  openNotification = () => {
+    notification.open({
+      message: "Thông báo",
+      description: "Phiên đăng nhập của bạn đã hết hạn !!!"
+    });
+  };
+
+  componentDidUpdate() {
+    if (
+      Cookies.get("isAuthenticated") === "true" &&
+      this.props.isExpied === true
+    ) {
+      Cookies.remove("isAuthenticated");
+      Cookies.remove("token");
+      Cookies.remove("user");
+      this.openNotification();
+    }
+  }
 
   render() {
     const menu = (
@@ -75,17 +104,28 @@ class Login extends Component {
             Thoát
           </a>
         </Menu.Item>
+        <Menu.Item>
+          <Link to={"/post"}>Đăng bài</Link>
+        </Menu.Item>
       </Menu>
     );
     return (
       <React.Fragment>
-        {this.props.isAuthenticated ? (
-          <div style={{ display: "flex", flexDirection: "row" }}>
-            <Avatar icon="user" />
-            <div style={{ marginLeft: "10px" }}>
+        {this.state.isAuthenticated && this.props.isExpied === undefined ? (
+          <div
+            style={{ display: "flex", flexDirection: "row", width: "170px" }}
+          >
+            <Avatar icon="user" src={this.state.user.avatar} />
+            <div
+              style={{
+                marginLeft: "10px",
+                display: "flex",
+                alignItems: "center"
+              }}
+            >
               <Dropdown overlay={menu}>
                 <a className="ant-dropdown-link">
-                  {this.props.user.name} <Icon type="down" />
+                  {this.state.user.name} <Icon type="down" />
                 </a>
               </Dropdown>
             </div>
@@ -202,7 +242,7 @@ const mapDispatchToProps = dispatch => {
   return {
     actions: bindActionCreators(
       {
-        loginFacebook: loginAction.loginFacebook
+        checkToken: simpleAction.checkToken
       },
       dispatch
     )
@@ -210,8 +250,7 @@ const mapDispatchToProps = dispatch => {
 };
 
 const mapStateToProps = state => ({
-  isAuthenticated: _.get(state, ["loginReducer", "isAuthenticated"]),
-  user: _.get(state, ["loginReducer", "user"])
+  isExpied: _.get(state, ["simpleReducer", "isExpied"])
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Login);

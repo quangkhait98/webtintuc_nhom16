@@ -41,11 +41,11 @@ class NewsType extends Component {
                   <div className="col0 col1">
                     <div className="news">
                       <h3 className="title">
-                        <Link to={`/news/${value._id}`}>{value.title}</Link>
+                        <Link to={`/homepage/news/${value._id}`}>{value.title}</Link>
                       </h3>
                       <img
                         className="images_news"
-                        src={image}
+                        src={value.image}
                         align="left"
                         alt=""
                       />

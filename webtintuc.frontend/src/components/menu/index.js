@@ -12,16 +12,19 @@ class MenuNews extends Component {
   }
   render() {
     const { categories } = this.props;
+    console.log("categories", categories);
     return (
       <ul className="ulmenu">
         <li className="limenu">
-         <Link to={`/`}> <img class="logo_icon_home" alt="" src={logo}></img></Link>
+          <Link to={`/`}>
+            <img class="logo_icon_home" alt="" src={logo}></img>
+          </Link>
         </li>
         {(categories || []).map(value => {
           if (value.newsType.length === 0) {
             return (
               <li className="limenu">
-                <Link to={`/newstype/${value._id}`}>{value.name}</Link>
+                <Link to={`/homepage/newstype/${value._id}`}>{value.name}</Link>
               </li>
             );
           } else {
@@ -31,7 +34,9 @@ class MenuNews extends Component {
                 <div class="dropdown-content">
                   {(value.newsType || []).map(value => {
                     return (
-                      <Link to={`/newstype/${value._id}`}>{value.name}</Link>
+                      <Link to={`/homepage/newstype/${value._id}`}>
+                        {value.name}
+                      </Link>
                     );
                   })}
                 </div>

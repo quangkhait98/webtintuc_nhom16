@@ -25,9 +25,9 @@ class ColumnLeft extends Component {
                 return (
                   <div className="col1">
                     <div className="news">
-                      <img className="images_news" src={image} alt="" />
+                      <img className="images_news" src={value.image} alt="" />
                       <h3 className="title">
-                        <Link to={`/news/${value._id}`}>{value.title}</Link>
+                        <Link to={`/homepage/news/${value._id}`}>{value.title}</Link>
                         <span className="hit">{value.viewsNumber}</span>
                       </h3>
                       <div className="clear" />

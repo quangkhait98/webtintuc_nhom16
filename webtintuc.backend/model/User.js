@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const Schema = mongoose.Schema;
 const userSchema = new mongoose.Schema({
   facebookId: {
     type: String,
@@ -10,7 +11,7 @@ const userSchema = new mongoose.Schema({
     required: false,
     default: null
   },
-  accessToken: {
+  avatar: {
     type: String,
     required: false,
     default: null
@@ -31,6 +32,7 @@ const userSchema = new mongoose.Schema({
     type: Date,
     default: Date.now
   },
+  news: [{ type: Schema.Types.ObjectId, ref: "News" }]
 });
 
 module.exports = mongoose.model("User", userSchema);

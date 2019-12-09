@@ -9,6 +9,34 @@ body {
   font-family: Arial, sans-serif;
   font-size: 12px;
 }
+.t-c > img {
+  width: 580px;
+}
+.t-j > img {
+  width: 580px;
+}
+td > img {
+  width: 580px;
+}
+.logo-small {
+  width: 50px;
+}
+p > img {
+  width: 580px;
+}
+
+.v-assist-img {
+  width: 580px;
+}
+.rdw-editor-main {
+  border: 1px solid #cccccc;
+  border-radius: 3px;
+}
+
+:global(.ant-avatar) {
+  width: 45px;
+}
+
 .taskbar {
   background-color: #eee;
   height: 30px;

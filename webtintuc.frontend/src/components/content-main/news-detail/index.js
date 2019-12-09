@@ -52,6 +52,7 @@ class NewsDetail extends Component {
   };
 
   componentDidMount() {
+    console.log("aaaaaaaaaa");
     const {
       match: { params }
     } = this.props;
@@ -92,7 +93,6 @@ class NewsDetail extends Component {
     }, 500);
     this.props.actions.postComment(
       this.props.newsId,
-      this.props.user._id,
       this.state.value
     );
   };
@@ -112,6 +112,7 @@ class NewsDetail extends Component {
 
   render() {
     const { newsdetail, newsSameType, comments } = this.props;
+    console.log("newsSameType", newsSameType);
     const { submitting, value } = this.state;
     const displayComments = [];
     (comments || []).map(comment => {
@@ -132,37 +133,12 @@ class NewsDetail extends Component {
 
     return (
       <React.Fragment>
-        <h1 className="title">{newsdetail.title}</h1>
-        <div className="des">{newsdetail.summary}</div>
+        {/* <h1 className="title">{newsdetail.title}</h1>
+        <div className="des">{newsdetail.summary}</div> */}
         <div className="chitiet">
           {/*noi dung*/}
-          <table align="center" border={0} cellPadding={3} cellSpacing={0}>
-            <tbody>
-              <tr>
-                <td>
-                  <img
-                    alt="mh17-7176-1406565111.jpg"
-                    data-natural-
-                    src={image}
-                    data-width={500}
-                    data-pwidth={480}
-                  />
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <p>
-                    Xác máy bay MH17 tại hiện trường hầu như&nbsp;không được bảo
-                    vệ. Ảnh:<em>&nbsp;Reuters</em>
-                  </p>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-          <p>{newsdetail.content}</p>
-          <p className="right">
-            <strong>Vũ Thảo</strong>
-          </p>
+          <div dangerouslySetInnerHTML={{ __html: newsdetail.content }} />
+
           {/*//noi dung*/}
         </div>
         <div className="clear" />
@@ -216,12 +192,15 @@ class NewsDetail extends Component {
           <ul>
             {(newsSameType || []).map(value => {
               return (
-                <li>
+                <li style={{ width: "170px", height: "150px" }}>
                   <a href="#">
-                    <img src={image} />
+                    <img
+                      src={value.image}
+                      style={{ width: "160px", height: "80px" }}
+                    />
                   </a>
                   <br />
-                  <Link to={`/news/${value._id}`} className="title">
+                  <Link to={`/homepage/news/${value._id}`} className="title">
                     {value.title}
                   </Link>
                   <span className="no_wrap"></span>

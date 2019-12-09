@@ -9,6 +9,7 @@ class Footer extends Component {
   // }
   render() {
     const { categories } = this.props;
+    console.log("categories", categories);
     return (
       <React.Fragment>
         <div className="thongtin-title">

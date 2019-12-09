@@ -1,6 +1,8 @@
 import { createAction } from "redux-actions";
 import _ from "lodash";
 import { useImperativeHandle } from "react";
+import Cookies from "js-cookie";
+
 export const getNewsDetailRequest = createAction("GET_NEWS_DETAIL_REQUEST");
 export const getNewsDetailError = createAction("GET_NEWS_DETAIL_ERROR");
 export const getNewsDetailSuccess = createAction("GET_NEWS_DETAIL_SUCCESS");
@@ -54,19 +56,19 @@ export const getComment = newsId => {
 export const postCommentRequest = createAction("POST_COMMENT_REQUEST");
 export const postCommentError = createAction("POST_COMMENT_ERROR");
 export const postCommentSuccess = createAction("POST_COMMENT_SUCCESS");
-export const postComment = (newsId, userId, content) => {
+export const postComment = (newsId, content) => {
   return async (dispatch, getState) => {
     dispatch(postCommentRequest());
     const cmt = {
       newsId,
-      userId,
       content
     };
     fetch(`http://localhost:8001/comment/create`, {
       method: "POST",
       body: JSON.stringify(cmt),
       headers: {
-        'Content-Type': 'application/json'
+        "Content-Type": "application/json",
+        authorization: `Bearer ${Cookies.get("token")}`
       }
     })
       .then(response => response.json())

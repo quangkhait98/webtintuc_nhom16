@@ -27,7 +27,7 @@ class HomePage extends Component {
                   <div className="child-cat">
                     {value.newsType.map(value => {
                       return (
-                        <Link to={`/newstype/${value._id}`}>{value.name}</Link>
+                        <Link to={`/homepage/newstype/${value._id}`}>{value.name}</Link>
                       );
                     })}
                   </div>
@@ -38,7 +38,7 @@ class HomePage extends Component {
                         <h3 className="title">
                           <a></a>
                           <Link
-                            to={`/news/${_.get(value, `news[0]._id`)}`}
+                            to={`/homepage/news/${_.get(value, `news[0]._id`)}`}
                             className="txt_link"
                           >
                             {_.get(value, `news[0].title`)}
@@ -46,7 +46,7 @@ class HomePage extends Component {
                         </h3>
                         <img
                           className="images_news"
-                          src={image}
+                          src= {_.get(value, `news[0].image`)}
                           align="left"
                           alt=""
                         />
@@ -62,7 +62,7 @@ class HomePage extends Component {
                           return (
                             <p className="tlq">
                               <Link
-                                to={`/news/${value._id}`}
+                                to={`/homepage/news/${value._id}`}
                                 className="txt_link"
                               >
                                 {value.title}
