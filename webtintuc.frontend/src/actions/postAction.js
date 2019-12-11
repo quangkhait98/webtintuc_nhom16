@@ -6,7 +6,7 @@ export const getMyNewsSuccess = createAction("GET_MY_NEWS_SUCCESS");
 export const getMyNews = () => {
   return async (dispatch, getState) => {
     dispatch(getMyNewsRequest());
-    fetch("http://localhost:8001/user/getnewsbyuserid", {
+    fetch(`${process.env.REACT_APP_REST_API_LOCATION}/user/getnewsbyuserid`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -25,7 +25,7 @@ export const editNewsSuccess = createAction("EDIT_NEWS_SUCCESS");
 export const editNews = (newsId, news) => {
   return async (dispatch, getState) => {
     dispatch(editNewsRequest());
-    fetch(`http://localhost:8001/news/${newsId}/update`, {
+    fetch(`${process.env.REACT_APP_REST_API_LOCATION}/news/${newsId}/update`, {
       method: "PUT",
       body: JSON.stringify(news),
       headers: {
@@ -45,7 +45,7 @@ export const deleteNewsSuccess = createAction("DELETE_NEWS_SUCCESS");
 export const deleteNews = newsId => {
   return async (dispatch, getState) => {
     dispatch(deleteNewsRequest());
-    fetch(`http://localhost:8001/news/${newsId}/delete`, {
+    fetch(`${process.env.REACT_APP_REST_API_LOCATION}/news/${newsId}/delete`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
@@ -64,7 +64,7 @@ export const postNewsSuccess = createAction("POST_NEWS_SUCCESS");
 export const postNews = news => {
   return async (dispatch, getState) => {
     dispatch(deleteNewsRequest());
-    fetch(`http://localhost:8001/news/create`, {
+    fetch(`${process.env.REACT_APP_REST_API_LOCATION}/news/create`, {
       method: "POST",
       body: JSON.stringify(news),
       headers: {

@@ -9,7 +9,7 @@ export const getNewsDetailSuccess = createAction("GET_NEWS_DETAIL_SUCCESS");
 export const getNewsDetail = newsId => {
   return async (dispatch, getState) => {
     dispatch(getNewsDetailRequest());
-    const res = await fetch(`http://localhost:8001/news/${newsId}`)
+    const res = await fetch(`${process.env.REACT_APP_REST_API_LOCATION}/news/${newsId}`)
       .then(response => response.json())
       .then(data => dispatch(getNewsDetailSuccess(data)))
       .catch(error => dispatch(getNewsDetailError(error)));
@@ -32,7 +32,7 @@ export const getnewssametype = (newsId, newsTypeId) => {
   return async (dispatch, getState) => {
     dispatch(getnewssametypeRequest());
     fetch(
-      `http://localhost:8001/news/${newsId}/getnewssametype?newsTypeId=${newsTypeId}`
+      `${process.env.REACT_APP_REST_API_LOCATION}/news/${newsId}/getnewssametype?newsTypeId=${newsTypeId}`
     )
       .then(response => response.json())
       .then(data => dispatch(getnewssametypeSuccess(data)))
@@ -46,7 +46,7 @@ export const getCommentSuccess = createAction("GET_COMMENT_SUCCESS");
 export const getComment = newsId => {
   return async (dispatch, getState) => {
     dispatch(getCommentRequest());
-    fetch(`http://localhost:8001/comment/${newsId}`)
+    fetch(`${process.env.REACT_APP_REST_API_LOCATION}/comment/${newsId}`)
       .then(response => response.json())
       .then(data => dispatch(getCommentSuccess(data)))
       .catch(error => dispatch(getCommentError(error)));
@@ -63,7 +63,7 @@ export const postComment = (newsId, content) => {
       newsId,
       content
     };
-    fetch(`http://localhost:8001/comment/create`, {
+    fetch(`${process.env.REACT_APP_REST_API_LOCATION}/comment/create`, {
       method: "POST",
       body: JSON.stringify(cmt),
       headers: {

@@ -12,7 +12,7 @@ export const getNewsestByNewsTypeSuccess = createAction(
 export const getNewsestByNewsType = newsTypeId => {
   return async (dispatch, getState) => {
     dispatch(getNewsestByNewsTypeRequest());
-    fetch(`http://localhost:8001/news/tintubandoc`)
+    fetch(`${process.env.REACT_APP_REST_API_LOCATION}/news/tintubandoc`)
       .then(response => response.json())
       .then(data => dispatch(getNewsestByNewsTypeSuccess(data)))
       .catch(error => dispatch(getNewsestByNewsTypeError(error)));

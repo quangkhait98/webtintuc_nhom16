@@ -9,7 +9,7 @@ export const getNewsViewMostSuccess = createAction(
 );
 export const getNewsViewMost = () => async dispatch => {
   dispatch(getNewsViewMostRequest());
-  fetch("http://localhost:8001/news/newsviewmost")
+  fetch(`${process.env.REACT_APP_REST_API_LOCATION}/news/newsviewmost`)
     .then(response => response.json())
     .then(data => dispatch(getNewsViewMostSuccess(data)))
     .catch(error => dispatch(getNewsViewMostError(error)));

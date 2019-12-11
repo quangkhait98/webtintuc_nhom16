@@ -22,38 +22,21 @@ class ColumnRight extends Component {
             <div className="clear" />
             <div className="cat-content">
               {(newsByNewsType || []).map((value, index) => {
-                if (index === 0) {
-                  return (
-                    <div className="col1">
-                      <div className="news">
-                        <h3 className="title">
-                          <Link to={`/news/${value._id}`}>{value.title}</Link>
-                        </h3>
-                        <img
-                          className="images_news"
-                          src={image}
-                          align="left"
-                          alt=""
-                        />
-                        <div className="des">{value.summary}</div>
-                        <div className="clear" />
-                      </div>
-                    </div>
-                  );
-                }
-              })}
-
-              <div className="col2">
-                {(newsByNewsType || []).map((value, index) => {
-                  if (index !== 0) {
-                    return (
-                      <h3 className="tlq">
-                      <Link to={`/news/${value._id}`}>{value.title}</Link>
+                return (
+                  <div className="col1">
+                    <div className="news">
+                      <img className="images_news" src={image} alt="" />
+                      <h3 className="title">
+                        <Link to={`/homepage/news/${value._id}`}>
+                          {value.title}
+                        </Link>
+                        <span className="hit">{value.viewsNumber}</span>
                       </h3>
-                    );
-                  }
-                })}
-              </div>
+                      <div className="clear" />
+                    </div>
+                  </div>
+                );
+              })}
             </div>
           </div>
         </div>

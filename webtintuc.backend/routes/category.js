@@ -29,7 +29,7 @@ router.get("/", (req, res) => {
 });
 
 router.get("/getnewsestbycategory", (req, res) => {
-  Category.find()
+  Category.find({ _id: { $ne: "5de9101cd2be6d1c6e5c2d50" } })
     .populate({
       path: "news",
       options: { sort: { field: "desc", create_at: -1 }, limit: 2 }

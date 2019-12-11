@@ -16,6 +16,7 @@ import {
 } from "antd";
 import moment from "moment";
 import { Link } from "react-router-dom";
+import Cookies from "js-cookie";
 const { TextArea } = Input;
 
 const CommentList = ({ comments }) => (
@@ -76,7 +77,11 @@ class NewsDetail extends Component {
   }
 
   handleSubmit = () => {
-    if (!this.state.value || this.props.user === null) {
+    const user = _.isUndefined(Cookies.get("user"))
+      ? null
+      : JSON.parse(Cookies.get("user").slice(2, Cookies.get("user").length));
+    if (!this.state.value || user === null) {
+      console.log("pass");
       this.openNotification();
       return;
     }
@@ -91,10 +96,7 @@ class NewsDetail extends Component {
         value: ""
       });
     }, 500);
-    this.props.actions.postComment(
-      this.props.newsId,
-      this.state.value
-    );
+    this.props.actions.postComment(this.props.newsId, this.state.value);
   };
 
   handleChange = e => {
@@ -112,15 +114,17 @@ class NewsDetail extends Component {
 
   render() {
     const { newsdetail, newsSameType, comments } = this.props;
-    console.log("newsSameType", newsSameType);
+    const user = _.isUndefined(Cookies.get("user"))
+      ? null
+      : JSON.parse(Cookies.get("user").slice(2, Cookies.get("user").length));
+    console.log("newsSameType", comments);
     const { submitting, value } = this.state;
     const displayComments = [];
     (comments || []).map(comment => {
       var time = moment(`${comment.createdDate}`).format("X");
       const cmt = {
         author: comment.user.name,
-        avatar:
-          "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png",
+        avatar: _.get(comment, "user.avatar"),
         content: <p>{comment.content}</p>,
         datetime: (
           <Tooltip title={moment.unix(time).format("YYYY-MM-DD HH:mm:ss")}>
@@ -195,7 +199,7 @@ class NewsDetail extends Component {
                 <li style={{ width: "170px", height: "150px" }}>
                   <a href="#">
                     <img
-                      src={value.image}
+                      src={value.image || image}
                       style={{ width: "160px", height: "80px" }}
                     />
                   </a>
@@ -215,7 +219,11 @@ class NewsDetail extends Component {
           <Comment
             avatar={
               <Avatar
-                src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
+                src={
+                  user
+                    ? user.avatar
+                    : "https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png"
+                }
                 alt="Han Solo"
               />
             }

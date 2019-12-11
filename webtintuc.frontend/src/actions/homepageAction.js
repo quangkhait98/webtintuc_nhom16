@@ -6,7 +6,7 @@ export const getNewsByCategorySuccess = createAction("GET_NEWS_BY_CATEGORY_SUCCE
 export const getNewsByCategory = () => {
   return async (dispatch, getState) => {
     dispatch(getNewsByCategoryRequest());
-    fetch(`http://localhost:8001/category/getnewsestbycategory`)
+    fetch(`${process.env.REACT_APP_REST_API_LOCATION}/category/getnewsestbycategory`)
       .then(response => response.json())
       .then(data => dispatch(getNewsByCategorySuccess(data)))
       .catch(error => dispatch(getNewsByCategoryError(error)));

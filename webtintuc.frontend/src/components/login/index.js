@@ -40,10 +40,10 @@ class Login extends Component {
   }
 
   onClickFaceBook() {
-    window.location.href = `http://localhost:8001/auth/facebook/`;
+    window.location.href = `${process.env.REACT_APP_REST_API_LOCATION}/auth/facebook/`;
   }
   onClickGoogle() {
-    window.location.href = `http://localhost:8001/auth/google/`;
+    window.location.href = `${process.env.REACT_APP_REST_API_LOCATION}/auth/google/`;
   }
 
   state = { visible: false };

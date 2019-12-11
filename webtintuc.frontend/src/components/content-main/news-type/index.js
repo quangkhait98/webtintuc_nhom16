@@ -8,6 +8,10 @@ import "antd/dist/antd.css";
 import image from "../../../assets/images/3.png";
 import { Link } from "react-router-dom";
 class NewsType extends Component {
+  constructor(props) {
+    super(props);
+    this.onChange = this.onChange.bind(this);
+  }
   componentDidMount() {
     const {
       match: { params }
@@ -23,6 +27,13 @@ class NewsType extends Component {
     if (_.get(prevProps.newsByNewsType, "[0].newsType._id") !== params.id) {
       this.props.actions.getNewsByNewsType(params.id, 1);
     }
+  }
+
+  onChange(page, pageSize) {
+    const {
+      match: { params }
+    } = this.props;
+    this.props.actions.getNewsByNewsType(params.id, page);
   }
 
   render() {
@@ -41,7 +52,9 @@ class NewsType extends Component {
                   <div className="col0 col1">
                     <div className="news">
                       <h3 className="title">
-                        <Link to={`/homepage/news/${value._id}`}>{value.title}</Link>
+                        <Link to={`/homepage/news/${value._id}`}>
+                          {value.title}
+                        </Link>
                       </h3>
                       <img
                         className="images_news"
@@ -60,7 +73,11 @@ class NewsType extends Component {
           })}
         </div>
         <div style={{ display: "flex", justifyContent: "center" }}>
-          <Pagination current={currentPage} total={totalPage} />
+          <Pagination
+            current={currentPage}
+            total={totalPage}
+            onChange={this.onChange}
+          />
         </div>
       </React.Fragment>
     );

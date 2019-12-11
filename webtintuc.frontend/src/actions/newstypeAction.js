@@ -11,7 +11,7 @@ export const getNewsByNewsType = (newsTypeId, currentPage) => {
   return async (dispatch, getState) => {
     dispatch(getNewsByNewsTypeRequest());
     fetch(
-      `http://localhost:8001/news/newsbynewstype?newsTypeId=${newsTypeId}&currentPage=${currentPage}`,
+      `${process.env.REACT_APP_REST_API_LOCATION}/news/newsbynewstype?newsTypeId=${newsTypeId}&currentPage=${currentPage}`,
     )
       .then(response => response.json())
       .then(data => dispatch(getNewsByNewsTypeSuccess(data)))

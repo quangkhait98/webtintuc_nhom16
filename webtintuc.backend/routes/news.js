@@ -49,39 +49,38 @@ router.post("/create", authUser, (req, res) => {
 
 router.get("/crawla", (req, res) => {
   const linkRss = [
-    "https://vietnamnet.vn/rss/giao-duc.rss",
-    "https://vietnamnet.vn/rss/thoi-su.rss"
-    // "https://vietnamnet.vn/rss/kinh-doanh.rss",
+    //"https://vietnamnet.vn/rss/giao-duc.rss"
+    //"https://vietnamnet.vn/rss/thoi-su.rss"
+    //"https://vietnamnet.vn/rss/kinh-doanh.rss"
     // "https://vietnamnet.vn/rss/giai-tri.rss",
-    // "https://vietnamnet.vn/rss/the-gioi.rss",
+    // "https://vietnamnet.vn/rss/the-gioi.rss"
     // "https://vietnamnet.vn/rss/doi-song.rss",
-    // "https://vietnamnet.vn/rss/the-thao.rss",
-    // "https://vietnamnet.vn/rss/cong-nghe.rss"
+    // "https://vietnamnet.vn/rss/the-thao.rss"
+    "https://vietnamnet.vn/rss/cong-nghe.rss"
   ];
   const category = [
-    "5dc6d58c31e95f335ff5d388",
-    "5dc6d5e431e95f335ff5d38d"
-    // "5dc6d5c431e95f335ff5d38a",
+    //"5dc6d58c31e95f335ff5d388"
+    //"5dc6d5e431e95f335ff5d38d"
+    //"5dc6d5c431e95f335ff5d38a"
     // "5dc6d61631e95f335ff5d390",
-    // "5dc6d5c431e95f335ff5d38a",
+    // "5dc6d5c431e95f335ff5d38a"
     // "5dc6d5b631e95f335ff5d389",
-    // "5dc6d5d531e95f335ff5d38c",
-    // "5dc6d60731e95f335ff5d38f"
+    // "5dc6d5d531e95f335ff5d38c"
+    "5dc6d60731e95f335ff5d38f"
   ];
   const newsType = [
-    "5dc6d8094a99f935c06a259a",
-    "5dce11af603b415550d324b4"
-    // "5dce10f4603b415550d324a8",
+    //"5dc6d8094a99f935c06a259a"
+    //"5dce11af603b415550d324b4"
+    //"5dce10f4603b415550d324a8"
     // "5dce1250603b415550d324c0",
-    // "5dce1100603b415550d324a9",
+    // "5dce1100603b415550d324a9"
     // "5dc6d8634a99f935c06a259e",
-    // "5dce1185603b415550d324b2",
-    // "5dce1227603b415550d324bd"
+    // "5dce1185603b415550d324b2"
+    "5dce1227603b415550d324bd"
   ];
   (async () => {
     await Promise.all(
-      linkRss.map(async (rss, index) => {
-        console.log(rss, index);
+      linkRss.map(async (rss, indexRss) => {
         let feed = await parser.parseURL(rss);
         const rex = /https:([^'\"]*?)(\.png|\.jpg|\.gif)/g;
         await Promise.all(
@@ -97,9 +96,9 @@ router.get("/crawla", (req, res) => {
                 summary: _.get(item, "content"),
                 content: content,
                 Highlights: 1,
-                newsType: newsType[index],
-                category: category[index],
-                image: image
+                newsType: newsType[indexRss],
+                category: category[indexRss],
+                image: image || null
               });
               try {
                 await news.save();
@@ -139,7 +138,7 @@ router.get("/newsest", (req, res) => {
 });
 
 router.get("/newsviewmost", (req, res) => {
-  News.find()
+  News.find({ newsType: { $ne: "5de91080d2be6d1c6e5c2d51" } })
     .sort({ field: "asc", viewsNumber: -1 })
     .limit(5)
     .exec(function(err, news) {
@@ -231,28 +230,26 @@ router.get("/:id/getnewssametype", (req, res) => {
 router.get("/", (req, res) => {
   const keyword = req.query.q;
   const currentPage = +req.query.currentPage;
-
   News.find({ titleUnsigned: new RegExp(keyword, "i") })
     .populate("newsType")
     .populate("category")
-    .skip((currentPage - 1) * pageSize)
-    .limit(pageSize)
     .sort({ field: "asc", create_at: -1 })
     .exec(function(err, news) {
-      News.count().exec(function(err, count) {
-        const totalPage = Math.ceil(count / pageSize);
-        if (currentPage > totalPage) {
-          res.send({
-            news: [],
-            totalPage: totalPage,
-            currentPage: currentPage
-          });
-        }
+      const totalPage = Math.ceil(news.length / pageSize);
+      if (currentPage > totalPage) {
         res.send({
-          news: news,
+          keyword,
+          news: [],
           totalPage: totalPage,
           currentPage: currentPage
         });
+      }
+      news = news.slice((currentPage - 1) * pageSize, currentPage * pageSize);
+      res.send({
+        keyword,
+        news: news,
+        totalPage: totalPage,
+        currentPage: currentPage
       });
     });
 });
